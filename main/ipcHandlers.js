@@ -1,33 +1,27 @@
 const { ipcMain } = require('electron');
-const fetch = require('node-fetch');
 
+// Register IPC handler for search
 ipcMain.handle('perform-search', async (event, query) => {
-  // Replace below with actual API call to Perplexity / OpenAI or other AI search API
-  try {
-    const apiKey = process.env.AI_API_KEY;
-    const apiUrl = `https://api.openai.com/v1/chat/completions`;
+    try {
+        // For now, return a mock response
+        // We'll add real API integration next
+        const mockResponse = `
+🔍 Search Results for: "${query}"
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: `Answer this concisely: ${query}` }
-        ],
-        max_tokens: 300
-      })
-    });
+Here are the key findings:
+• Point 1: This is a sample answer
+• Point 2: AI integration coming soon
+• Point 3: Replace this with actual API call
 
-    const data = await response.json();
-    const answer = data.choices?.[0]?.message?.content || "No answer found";
-    return answer;
-
-  } catch (error) {
-    return `Error: ${error.message}`;
-  }
+This is a placeholder. Next step: Add OpenAI/Perplexity API.
+        `;
+        
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        return mockResponse;
+    } catch (error) {
+        console.error('Search error:', error);
+        return 'Error: Unable to fetch results. Please try again.';
+    }
 });

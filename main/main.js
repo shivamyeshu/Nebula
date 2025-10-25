@@ -1,6 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
+// Import IPC handlers
+require('./ipcHandlers');
+
 function createWindow() {
     const win = new BrowserWindow({
         width: 1000,
@@ -13,7 +16,8 @@ function createWindow() {
     });
 
     win.loadFile(path.join(__dirname, '../public/index.html'));
-    win.webContents.openDevTools(); // Remove in production
+    // Comment out DevTools to avoid console warnings
+    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
