@@ -1,27 +1,25 @@
+require('dotenv').config();
 const { ipcMain } = require('electron');
+const { GoogleGenAI } = require('@google/genai');
 
-// Register IPC handler for search
+// Initialize client
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+
+// Register IPC handler
 ipcMain.handle('perform-search', async (event, query) => {
     try {
-        // For now, return a mock response
-        // We'll add real API integration next
-        const mockResponse = `
-🔍 Search Results for: "${query}"
+        const result = await ai.models.generateContent({
+            model: 'gemini-2.0-flash-001', // or 'gemini-2.0-pro'
+            contents: [
+                `You are a concise, helpful AI. Provide an accurate answer in structured bullets or a paragraph. Do not include links.
+                Question: ${query}`
+            ]
+        });
 
-Here are the key findings:
-• Point 1: This is a sample answer
-• Point 2: AI integration coming soon
-• Point 3: Replace this with actual API call
-
-This is a placeholder. Next step: Add OpenAI/Perplexity API.
-        `;
-        
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        return mockResponse;
+        // `result.text` is the actual answer string
+        return result.text;
     } catch (error) {
-        console.error('Search error:', error);
-        return 'Error: Unable to fetch results. Please try again.';
+        console.error('Gemini API Error:', error);
+        return `❌ Error: ${error.message}\n\nCheck your API key, quotas, or try again later.`;
     }
 });

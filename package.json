@@ -11,6 +11,8 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "@google/genai": "^1.27.0",
+    "dotenv": "^17.2.3",
     "electron": "^38.4.0",
     "marked": "^16.4.1",
     "openai": "^6.7.0",
