@@ -20,6 +20,6 @@ ipcMain.handle('perform-search', async (event, query) => {
         return result.text;
     } catch (error) {
         console.error('Gemini API Error:', error);
-        return `❌ Error: ${error.message}\n\nCheck your API key, quotas, or try again later.`;
+        return ` Error: ${error.message}\n\nCheck your API key, quotas, or try again later.`;
     }
 });

@@ -10,109 +10,271 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: transparent;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            -webkit-app-region: drag;
         }
+        
+
         .container {
-            background: white;
-            padding: 40px;
+            background: rgba(20, 20, 40, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            padding: 60px 50px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 90%;
-            max-width: 800px;
+            max-width: 500px;
+            -webkit-app-region: no-drag;
         }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+        
+        
+        
         h1 {
-            color: #667eea;
-            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.95);
             font-size: 2.5em;
-            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
         }
+        
+        .input-group {
+            margin-bottom: 30px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0;
+        }
+        
+        input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .keyboard-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Window controls */
+        .window-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            -webkit-app-region: no-drag;
+            z-index: 1000;
+        }
+        
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .control-btn.close:hover {
+            background: rgba(255, 59, 48, 0.8);
+        }
+        
+        /* Main app view (hidden initially) */
+        .main-view {
+            display: none;
+        }
+        
+        .main-view.active {
+            display: block;
+        }
+        
+        .search-container {
+            padding: 30px;
+        }
+        
         .search-box {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-        input {
+        
+        .search-input {
             flex: 1;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            outline: none;
-            transition: border 0.3s;
         }
-        input:focus {
-            border-color: #667eea;
-        }
-        button {
-            padding: 15px 30px;
-            font-size: 16px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: 600;
-        }
-        button:hover {
-            background: #5568d3;
-        }
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+        
         .result {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            max-height: 400px;
+            overflow-y: auto;
             white-space: pre-wrap;
-            line-height: 1.6;
             display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         .result.show {
             display: block;
         }
+        
         .loading {
             text-align: center;
-            color: #667eea;
-            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔮 Nebula</h1>
-        <div class="search-box">
-            <input 
-                type="text" 
-                id="searchInput" 
-                placeholder="Ask anything... Try: What is AI?"
-            />
-            <button id="searchBtn">Search</button>
+    <!-- Background effects -->
+    <div class="nebula-bg"></div>
+    <div class="stars"></div>
+    
+    <!-- Window controls -->
+    <div class="window-controls">
+        <button class="control-btn" onclick="window.close()">−</button>
+        <button class="control-btn close" onclick="window.close()">×</button>
+    </div>
+    
+    <!-- Welcome Screen -->
+    <div class="container" id="welcomeScreen">
+        <div class="header">
+            <span class="icon">🔮</span>
+            <h1>Welcome</h1>
         </div>
-        <div id="result" class="result"></div>
+
+        <button class="btn-primary" onclick="startSession()">
+            Start Session
+            <span class="keyboard-hint">Ctrl + ↵</span>
+        </button>
+    </div>
+    
+    <!-- Main App (shown after API key) -->
+    <div class="container main-view" id="mainView">
+        <div class="search-container">
+            <h1 style="text-align: center; margin-bottom: 30px; color: white;">🔮 Nebula</h1>
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input"
+                    placeholder="Ask anything..."
+                />
+                <button class="btn-primary" style="width: auto; padding: 15px 30px;" onclick="performSearch()">Search</button>
+            </div>
+            <div id="result" class="result"></div>
+        </div>
     </div>
 
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const resultDiv = document.getElementById('result');
-
+        let apiKey = '';
+        
+        // Handle Enter key for API input
+        document.getElementById('apiKeyInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') startSession();
+        });
+        
+        // Handle Ctrl+Enter
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') startSession();
+        });
+        
+        function startSession() {
+            const input = document.getElementById('apiKeyInput');
+            apiKey = input.value.trim();
+            
+            if (!apiKey) {
+                alert('Please enter your API key');
+                return;
+            }
+            
+            // Switch to main view
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('mainView').classList.add('active');
+        }
+        
         async function performSearch() {
-            const query = searchInput.value.trim();
+            const query = document.getElementById('searchInput').value.trim();
             if (!query) return;
-
-            searchBtn.disabled = true;
-            searchBtn.textContent = 'Searching...';
+            
+            const resultDiv = document.getElementById('result');
             resultDiv.className = 'result show loading';
             resultDiv.textContent = '🔍 Searching...';
-
+            
             try {
                 const response = await window.electronAPI.search(query);
                 resultDiv.className = 'result show';
@@ -120,14 +282,11 @@
             } catch (error) {
                 resultDiv.className = 'result show';
                 resultDiv.textContent = '❌ Error: ' + error.message;
-            } finally {
-                searchBtn.disabled = false;
-                searchBtn.textContent = 'Search';
             }
         }
-
-        searchBtn.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', (e) => {
+        
+        // Handle Enter for search
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') performSearch();
         });
     </script>
